@@ -401,8 +401,19 @@ and will return false when tested as a condition for an if expression.
       boolean false
       
 - When do you use elsif?
-When do you use unless?
-What does <=> do?
+- When do you use unless?
+       With an if statement you can check if something is true.
+       But when you want to check for “not true” there is two things you can do.
+       use unless, which is like if, but it checks for “not true”: 
+       
+       unless condition
+            # ...
+       end
+       
+        Or you can use !:if !condition
+            # ...
+        end
+- What does <=> do?
 Why might you define your own <=> method?
 What do || and && and ! do?
 What is returned by puts("woah") || true?
