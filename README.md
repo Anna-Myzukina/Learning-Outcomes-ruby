@@ -402,6 +402,16 @@ and will return false when tested as a condition for an if expression.
       
 - When do you use elsif?
 - When do you use unless?
+
+            Синтаксис:
+
+            view source
+            unless условие [then]
+               код
+            [else]
+               код ]
+            end
+Выполняет код, если условие false. Если условие true — будет выполнен код из else.
        With an if statement you can check if something is true.
        But when you want to check for “not true” there is two things you can do.
        use unless, which is like if, but it checks for “not true”: 
@@ -418,7 +428,11 @@ Why might you define your own <=> method?
 What do || and && and ! do?
 What is returned by puts("woah") || true?
 What is ||=?
-What is the ternary operator?
+- What is the ternary operator? // условие ? если_true : если_false
+Тернарная операция (от лат. tri — три) — операция, имеющая 3 операнда:
+Тернарная условная операция — операция в информатике, возвращающая свой второй или третий операнд в зависимости от логического значения первого операнда.
+           
+           if a then b else c end === a ? b : c
 When should you use a case statement?
 Iteration:
 What does loop do?
