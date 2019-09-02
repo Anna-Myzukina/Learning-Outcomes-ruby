@@ -424,6 +424,43 @@ and will return false when tested as a condition for an if expression.
             # ...
         end
 - What does <=> do?
+      Это общий оператор сравнения. 
+      Он возвращает либо -1, 0, либо +1 в зависимости от того, 
+      меньше ли его получатель, равен или больше его аргумента
+      
+      a <=> b :=
+      if a < b then return -1
+      if a = b then return  0
+      if a > b then return  1
+      if a and b are not comparable then return nil
+      
+     The spaceship method is useful when you define it in your own class and include 
+     the Comparable module https://ruby-doc.org/core-2.6.4/Comparable.html. 
+     Your class then gets the >, < , >=, <=, ==, and between? methods for free.
+
+            class Card
+              include Comparable
+              attr_reader :value
+
+              def initialize(value)
+                @value = value
+              end
+
+              def <=> (other) #1 if self>other; 0 if self==other; -1 if self<other
+                self.value <=> other.value
+              end
+
+            end
+
+            a = Card.new(7)
+            b = Card.new(10)
+            c = Card.new(8)
+
+            puts a > b # false
+            puts c.between?(a,b) # true
+
+# Array#sort uses <=> :
+p [a,b,c].sort # [#<Card:0x0000000242d298 @value=7>, #<Card:0x0000000242d248 @value=8>, #<Card:0x0000000242d270 @value=10>]
 Why might you define your own <=> method?
 What do || and && and ! do?
 What is returned by puts("woah") || true?
