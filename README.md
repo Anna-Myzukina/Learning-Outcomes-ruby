@@ -427,6 +427,7 @@ and will return false when tested as a condition for an if expression.
       Это общий оператор сравнения. 
       Он возвращает либо -1, 0, либо +1 в зависимости от того, 
       меньше ли его получатель, равен или больше его аргумента
+      If the other object is not comparable then the <=> operator should return nil
       
       a <=> b :=
       if a < b then return -1
@@ -434,8 +435,18 @@ and will return false when tested as a condition for an if expression.
       if a > b then return  1
       if a and b are not comparable then return nil
       
+ The Spaceship Operator <=> is a special one that comes up because it actually gives three different possible outputs depending on whether the left side is greater than, less than, or equal to the right side.
+
+            > 1 <=> 1000
+            => -1
+            > 1 <=> 1
+            => 0
+            > 1 <=> -1000
+            => 1
+      
      The spaceship method is useful when you define it in your own class and include 
      the Comparable module https://ruby-doc.org/core-2.6.4/Comparable.html. 
+     
      Your class then gets the >, < , >=, <=, ==, and between? methods for free.
 
             class Card
@@ -459,34 +470,179 @@ and will return false when tested as a condition for an if expression.
             puts a > b # false
             puts c.between?(a,b) # true
 
-# Array#sort uses <=> :
-p [a,b,c].sort # [#<Card:0x0000000242d298 @value=7>, #<Card:0x0000000242d248 @value=8>, #<Card:0x0000000242d270 @value=10>]
-Why might you define your own <=> method?
-What do || and && and ! do?
-What is returned by puts("woah") || true?
-What is ||=?
+       #Array#sort uses <=> :
+      p [a,b,c].sort 
+      => [#<Card:0x0000000242d298 @value=7>, #<Card:0x0000000242d248 @value=8>, #<Card:0x0000000242d270 @value=10>]
+
+- Why might you define your own <=> method?
+cause <=> it's actually a method and you can override it in your own classes.
+<=> на самом деле это метод, и вы можете переопределить его в своих собственных классах.
+
+Это наиболее часто используется в методах сортировки. 
+Представьте, что вы создали класс Person и хотите отсортировать массив объектов Person. 
+Сначала вы должны научить Ruby сравнивать двух людей, определив метод # <=> для класса Person:
+
+            def Person
+              def <=> (other_person)  # to compare two people, use last names
+                self.last_name <=> other_person.last_name
+              end
+            end # now we can run people_array.sort, woohoo!
+- What do || and && and ! do?
+
+|| (the pipe symbol, usually on the same key as the backslash) aka or, 
+meaning that if EITHER of the two sides is true, the expression is true (else false)
+
+&& aka and, meaning both sides must be true for the full expression to evaluate to true
+
+! aka not, which reverses the expression from true to false or false to true
+
+            > ( false || true ) && !(true && true ) 
+            => false
+- What is returned by puts("woah") || true? / return true cause true || true => true
+      
+      irb(main):001:0> puts("woah") || true
+      woah
+      => true
+
+- What is ||=?
+
+      it basically expands to thing_a || thing_a = thing_b
+Поэтому, если thing_a не был установлен на что-либо, он становится thing_b, 
+иначе он сохраняет свое первоначальное значение.
+Если thing_a еще не был назначен чему-либо, то это nil, а Ruby проверяет правую часть || чтобы увидеть, может ли это быть true, что включает запуск выражения для установки thing_a = thing_b
+
+Если ему уже присвоено значение, оно просто сохраняет это значение как нормальное.
+
 - What is the ternary operator? // условие ? если_true : если_false
 Тернарная операция (от лат. tri — три) — операция, имеющая 3 операнда:
 Тернарная условная операция — операция в информатике, возвращающая свой второй или третий операнд в зависимости от логического значения первого операнда.
            
            if a then b else c end === a ? b : c
-When should you use a case statement?
-Iteration:
-What does loop do?
-What are the two ways to denote a block of code?
-What is an index variable?
-How do you print out each item of a simple array [1,3,5,7] with:
+           
+     condition ? do_this_if_true : do_this_if_false
+
+So:
+
+      > true ? puts "I like truth" : puts "not gonna happen"
+      "I like truth"
+      => nil
+- When should you use a case statement?
+wWhere you're really just checking to see if something equals any one of a number of clear but different options, a case statement can be a good substitute
+It basically lets you construct a chain of logic that says "if x equals option_a, do this, if it equals  option_b, do this, if it equals option_c, do this... and otherwise do this."
+
+            case current_user.energy   # Assume it's an value 1-3
+            when 3
+                puts "Go run a marathon!"
+            when 2
+                puts "Go for a walk."
+            when 1
+                puts "Go take a nap"
+            else
+                puts "You're only supposed to have energy of 1,2 or 3..."
+                
+## Iteration:
+- What does loop do? 
+A loop is really just code that will run a number of times until some condition is met. 
+
+Цикл - это просто код, который будет выполняться несколько раз, пока не будет выполнено какое-либо условие. 
+Переменная, как правило, используется для отслеживания того, на какой итерации вы находитесь, 
+или для другого увеличения, пока не будет выполнено условие. Это называется индексной переменной.
+Цикл - это самый простой способ зацикливания в Ruby, и он не так уж часто используется, потому что другие способы зацикливания намного сексуальнее. 
+цикл занимает блок кода, обозначаемый либо {...}, либо do ... end (если он состоит из нескольких строк). 
+Это будет продолжаться до тех пор, пока вы не скажете ему прекратить использовать оператор break:
+
+      > loop { puts "this will not stop until you press CTRL+c" }
+      this will not stop until you press CTRL+c
+      this will not stop until you press CTRL+c
+      ... and so on
+
+      > i=0                   # Our index variable
+      > loop do
+      >   i+=1
+      >   print "#{i} "
+      >   break if i==10
+      > end
+      1 2 3 4 5 6 7 8 9 10 => nil
+- What are the two ways to denote a block of code?
+
+      loop takes a block of code, denoted by either  { ... } or do ... end (if it's over multiple lines). 
+      It will keep looping until you tell it to stop using a break statement
+- What is an index variable?
+ A variable is typically used to keep track of which iteration you are on or to otherwise increment 
+ until the condition is reached
+- How do you print out each item of a simple array [1,3,5,7] with:
 loop?
+
+            array = [1,3,5,7]
+             i=0                   
+             loop do
+             print "#{array[i]} "
+               i+=1
+               break if i==array.size
+             end
+          #output: 3 5 7  => nil
+
 while?
+
+            array = [1,3,5,7]
+             i=0
+             while i <=array.size
+               print "#{array[i]} "
+               i+=1
+             end
+             #output: 1 3 5 7  => nil
 for?
+
+            array = [1,3,5,7]
+             for arr_number in (0..array.size)
+               print "#{arr_number} "
+             end
+             #output: 0 1 2 3 4 => 0..4
 #each?
+
+             array = [1,3,5,7]
+             array.each do |array_value|    
+               print "#{array_value}! "
+             end
+             #output: 1! 3! 5! 7! => [1, 3, 5, 7]
+
 #times?
-What’s the difference between while and until?
-How do you stop a loop?
-How do you skip to the next iteration of a loop?
-How would you start the loop over again?
-What are the (basic) differences between situations when you would use while vs #times vs #each?
-What does nesting loops mean and when would you use it?
+
+       array = [1,3,5,7]
+       array.length.times do |num|
+           print "#{num}!"
+       end
+      #output: 0!1!2!3!=> 4
+
+
+
+- What’s the difference between while and until?
+until выполняется до тех пор, пока указанное условие ложно
+
+      until is almost identical to while but, 
+      instead of running as long as the specified condition is true, 
+      it runs as long as the condition is false
+- How do you stop a loop?
+break will stop the current loop. Often used with an if to specify under what conditions to do that
+to stop using a 
+
+      break 
+  statement
+- How do you skip to the next iteration of a loop?
+      
+      next 
+will jump to the next iteration. Also usually used with an if statement.
+- How would you start the loop over again?
+
+      redo 
+will let you restart the loop (without evaluating the condition on the first go-through), again usually with some condition
+- What are the (basic) differences between situations when you would use while vs #times vs #each?
+
+      #each for any time you want to do stuff with every item in an array or hash, and 
+      #times for the simple cases when you just want to do something a fixed number of times.
+- What does nesting loops mean and when would you use it?
+Вложенные циклы происходят, когда один переходит внутрь другого, 
+поэтому вы выполняете весь внутренний цикл для каждой итерации внешнего цикла.
 Blocks, Procs, and Lambdas:
 How is a block like a function?
 How is a block different from a function?
@@ -505,7 +661,8 @@ What is a lambda?
 What’s different between a lambda and a proc?
 What is a Method (capital “M”)?
 What do Methods basically allow you to do that could probably be pretty interesting when you’re writing some more advanced programs later on?
-Enumerable and Modules:
+
+## Enumerable and Modules:
 What is a module?
 Why are modules useful?
 What does #each do?
@@ -521,7 +678,8 @@ When might you use #inject?
 How do you check if every item in a hash fulfills a certain criteria?
 What about if none of the elements fulfill that criteria?
 What (basically) is an enumerator?
-Writing Methods:
+
+## Writing Methods:
 How many things should a method ideally do?
 What types of things should a method modify?
 What should you name a method?
