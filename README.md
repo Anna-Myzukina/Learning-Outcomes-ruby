@@ -48,6 +48,14 @@ Answer:
       Not single quotes.
 * What is string interpolation?
 
+String Interpolation occurs when you want to plug something else into a string, like a variable.
+Simply use the pound symbol and curly braces #{} to do so
+
+      > my_name = "Tiny Tim"
+      > my_age = 25
+      => "Tiny Tim"
+      > my_string = "My name is #{my_name} !"
+      => "My name is Tiny Tim!"
       Ruby's ability to run code within a string.
 * What are escape characters?
 
