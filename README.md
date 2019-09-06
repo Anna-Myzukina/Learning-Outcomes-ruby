@@ -676,27 +676,51 @@ What is a Method (capital “M”)?
 What do Methods basically allow you to do that could probably be pretty interesting when you’re writing some more advanced programs later on?
 
 ## Enumerable and Modules:   https://www.eriktrautman.com/posts/ruby-explained-map-select-and-other-enumerable-methods
-What is a module?
-Why are modules useful?
-What does #each do?
-What does #each return?
-What does #map do?
-What does #map return?
-What is the difference between #map and #collect?
-What does #select do?
-What does #select return?
-What is the difference between #each #map and #select?
-What does #inject do?
-When might you use #inject?
-How do you check if every item in a hash fulfills a certain criteria?
-What about if none of the elements fulfill that criteria?
-What (basically) is an enumerator?
+- What is a module?
+«модуль», что означает, что это просто набор методов, упакованных вместе, которые могут (и могут) быть «смешаны» или включены с другими классами (такими как Array и Hash
+- Why are modules useful?
+«Enumerable» на самом деле является «модулем», что означает, что это просто набор методов, упакованных вместе, которые могут (и могут) быть «смешаны» или включены с другими классами (такими как Array и Hash. Это означает, что программисты Ruby не нужно писать все эти методы много раз - они просто пишут их один раз, упаковывают их в Enumerable и говорят Array и Hash включить их. Пока класс, который хочет включить Enumerable, имеет свой собственный метод #each что Enumerable может использовать, он может получить доступ ко всей магии и радости использования методов Enumerable, просто смешав их.
+Enumerable дает вам множество полезных способов сделать что-то для каждого элемента объекта коллекции (например, для массива или хэша), что очень распространено при создании программ и веб-сайтов.
+- What does #each do?
 
-## Writing Methods:
-How many things should a method ideally do?
-What types of things should a method modify?
-What should you name a method?
-What does self mean?
+      goes through each item in the object you called it on and passes it to the block that you specified. 
+      It will return the original collection that it was called on
+#each - это метод итератора, который вы уже видели много раз до этого, который поставляется с классами Array, Hash и Range и в основном просто просматривает каждый элемент в объекте, для которого вы его вызвали, и передает его в блок, Вы указали. Он вернет оригинальную коллекцию, к которой он был вызван:
+
+            > [1,2,3].each { |num| print "#{num}! " }
+            1! 2! 3! => [1,2,3]
+- What does #each return?
+
+      It will return the original collection that it was called on
+- What does #map do?
+method #map same method as #collect, just called something different it re-mapping your original object through some sort of transformation
+- What does #map return?
+#map returns a new array filled with whatever gets returned by the block each time it runs.
+- What is the difference between #map and #collect?
+method #map same method as #collect, just called something different it re-mapping your original object through some sort of transformation
+- What does #select do?
+
+- What does #select return?
+ #select will run the block on every item of your object (whether array or hash or whatever) and return a new object that contains only those items for which the original block returned true
+- What is the difference between #each #map and #select?
+
+- What does #inject do?
+- When might you use #inject?
+- How do you check if every item in a hash fulfills a certain criteria?
+- What about if none of the elements fulfill that criteria?
+- What (basically) is an enumerator?
+
+## Writing Methods: https://www.eriktrautman.com/posts/ruby-explained-writing-and-running-methods
+- How many things should a method ideally do?
+
+      each method should only do ONE thing. If it's doing two, it's time for another method. If it's doing a dozen, you probably need to start thinking about having a separate class.
+- What types of things should a method modify?
+A method should be self-contained and only use those variables that have been passed in.
+Не изменяйте глобальные переменные и не создавайте побочных эффектов для ваших методов. Точно так же не деструктивно изменяйте аргументы или объект, к которому был вызван ваш метод (если это явно не метод bang!).
+- What should you name a method?
+
+-What does self mean?
+
 What do you need to do to create your own Ruby script file?
 How would you run a Ruby script from the command line?
 How can you check whether your script was being run from the command line?
