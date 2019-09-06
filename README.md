@@ -718,16 +718,34 @@ method #map same method as #collect, just called something different it re-mappi
 A method should be self-contained and only use those variables that have been passed in.
 Не изменяйте глобальные переменные и не создавайте побочных эффектов для ваших методов. Точно так же не деструктивно изменяйте аргументы или объект, к которому был вызван ваш метод (если это явно не метод bang!).
 - What should you name a method?
-
+When naming methods the goal is to be descriptive but short. Name based on what it will return or what the major intended side effect will be
+End with a question mark ? if it will return true/false
 -What does self mean?
+It's a word that you see a whole lot in Ruby and it's actually pretty simple... it refers to whatever object the current method was called on (the "caller"). So if I called current_user.jump, current_user is the caller of that method. Inside the definition of the #jump method, self would refer to the current_user.
+- What do you need to do to create your own Ruby script file?
+just create a file with the extension .rb
+- How would you run a Ruby script from the command line?
 
-What do you need to do to create your own Ruby script file?
-How would you run a Ruby script from the command line?
-How can you check whether your script was being run from the command line?
-What is a shebang line?
-What does require do?
-What does load do?
-What is the difference between require and load?
-How do you access any parameters that were passed to your script file from the command line?
-What does #send do?
-When would #send be used that’s different from just running the method on an object ‘normally’?
+navigate to that file's directory from the command line, and run it using $ ruby filename.rb (the dollar sign is just the command prompt). You'll be able to gets from and puts to the command line now!
+- How can you check whether your script was being run from the command line?
+$0
+- What is a shebang line?
+a Shebang Line that points to your Ruby executable:
+
+      #!/usr/bin/ruby
+- What does require do?
+
+If you want to include a gem file (a library of methods, for instance) in your IRB session, you'll need to use require to bring it in. The default directory for require accesses any gems you may have downloaded from the internet.
+- What does load do?
+
+Now you can run methods and access variables from that file in IRB. If you were to change and save your script file, to get those changes in IRB you can either reload IRB entirely or use load instead of require.
+
+            > load `./your_script.rb`
+            => true
+- What is the difference between require and load?
+ require will only load the file once, a feature designed to save you headache normally. 
+ load will load it for you regardless.
+- How do you access any parameters that were passed to your script file from the command line?
+- What does #send do?
+#send, which will let you run a method. 
+- When would #send be used that’s different from just running the method on an object ‘normally’?
