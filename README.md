@@ -651,11 +651,16 @@ will let you restart the loop (without evaluating the condition on the first go-
 - What does nesting loops mean and when would you use it?
 Вложенные циклы происходят, когда один переходит внутрь другого, 
 поэтому вы выполняете весь внутренний цикл для каждой итерации внешнего цикла.
-Blocks, Procs, and Lambdas:
-How is a block like a function?
-How is a block different from a function?
-What are the two ways to declare a block?
-How do you return data from a block?
+
+## Blocks, Procs, and Lambdas:
+- How is a block like a function?
+
+-How is a block different from a function?
+
+-What are the two ways to declare a block?
+
+-How do you return data from a block?
+
 What happens if you include a return statement in a block?
 Why would you use a block instead of just creating a method?
 What does yield do?
@@ -670,7 +675,7 @@ What’s different between a lambda and a proc?
 What is a Method (capital “M”)?
 What do Methods basically allow you to do that could probably be pretty interesting when you’re writing some more advanced programs later on?
 
-## Enumerable and Modules:
+## Enumerable and Modules:   https://www.eriktrautman.com/posts/ruby-explained-map-select-and-other-enumerable-methods
 What is a module?
 Why are modules useful?
 What does #each do?
