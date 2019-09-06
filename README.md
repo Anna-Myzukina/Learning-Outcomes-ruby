@@ -711,6 +711,18 @@ method #map same method as #collect, just called something different it re-mappi
 - What (basically) is an enumerator?
 
 ## Writing Methods: https://www.eriktrautman.com/posts/ruby-explained-writing-and-running-methods
+Syntaxis of method:
+
+            def my_name()
+              return("Zoo Lander")
+              
+def - a keyword in Ruby for defining methods
+
+my_name() - the name of the method that is being defined
+
+return("Zoo Lander") - the body of the method that is executed when the method is called
+
+end - a keyword in Ruby for indicating the method definition is complete
 - How many things should a method ideally do?
 
       each method should only do ONE thing. If it's doing two, it's time for another method. If it's doing a dozen, you probably need to start thinking about having a separate class.
